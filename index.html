@@ -60,6 +60,19 @@
     const ulElement = document.querySelector('.comments')
     
     buttonEl.addEventListener('click', function() {
+      
+      const name = document.querySelector('.add-form-name').value;
+      const text = document.querySelector('.add-form-text').value;
+
+      if (name === '' || name === ' ') {
+      alert('Введите имя');
+      return;
+      } else if (text === '' || text === ' ') {
+      alert('Введите текст комментария');
+      return;
+      };
+
+      
       let dateTime = new Date();
       dateTime = dateTime.toLocaleDateString('ru-RU', { 
         year: '2-digit', 
@@ -69,8 +82,7 @@
       hour: '2-digit', 
       minute: '2-digit'});
       
-      const name = document.querySelector('.add-form-name').value;
-      const text = document.querySelector('.add-form-text').value;
+
       const oldHtml = ulElement.innerHTML;
       ulElement.innerHTML = oldHtml + `
       <li class="comment">
@@ -91,5 +103,10 @@
         </div>
       </li>`;
     });
+    
+    
+
+
+    
   </script>
 </html>
