@@ -69,11 +69,13 @@
 
       if (name === '' || name === ' ') {
         nameStyle.style.border = '4px solid';
-        nameStyle.style.borderColor = 'red'; 
+        nameStyle.style.borderColor = 'red';
+        nameStyle.placeholder = "Введите имя!"
         return;
       } else if (text === '' || text === ' ') {
         textStyle.style.border = '4px solid';
-        textStyle.style.borderColor = 'red'; 
+        textStyle.style.borderColor = 'red';
+        textStyle.placeholder = "Введите комментарий!" 
         return;
       } else {
         nameStyle.style.border = '';
