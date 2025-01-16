@@ -58,6 +58,9 @@
     const liElement = document.querySelector('.comment')
     const buttonEl = document.querySelector('.add-form-button')
     const ulElement = document.querySelector('.comments')
+    const nameStyle = document.querySelector('.add-form-name')
+    const textStyle = document.querySelector('.add-form-text')
+
     
     buttonEl.addEventListener('click', function() {
       
@@ -65,13 +68,21 @@
       const text = document.querySelector('.add-form-text').value;
 
       if (name === '' || name === ' ') {
-      alert('Введите имя');
-      return;
+        nameStyle.style.border = '4px solid';
+        nameStyle.style.borderColor = 'red'; 
+        return;
       } else if (text === '' || text === ' ') {
-      alert('Введите текст комментария');
-      return;
+        textStyle.style.border = '4px solid';
+        textStyle.style.borderColor = 'red'; 
+        return;
+      } else {
+        nameStyle.style.border = '';
+        nameStyle.style.borderColor = ''; 
+        document.querySelector('.add-form-name').value = '';
+        textStyle.style.border = '';
+        textStyle.style.borderColor = '';
+        document.querySelector('.add-form-text').value = '';
       };
-
       
       let dateTime = new Date();
       dateTime = dateTime.toLocaleDateString('ru-RU', { 
