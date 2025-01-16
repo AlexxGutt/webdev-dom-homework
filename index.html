@@ -45,17 +45,8 @@
         </li>
       </ul>
       <div class="add-form">
-        <input
-          type="text"
-          class="add-form-name"
-          placeholder="Введите ваше имя"
-        />
-        <textarea
-          type="textarea"
-          class="add-form-text"
-          placeholder="Введите ваш коментарий"
-          rows="4"
-        ></textarea>
+        <input type="text" class="add-form-name" placeholder="Введите ваше имя"/>
+        <textarea type="textarea" class="add-form-text" placeholder="Введите ваш коментарий" rows="4"></textarea>
         <div class="add-form-row">
           <button class="add-form-button">Написать</button>
         </div>
@@ -64,15 +55,41 @@
   </body>
 
   <script>
-    "use strict";
-    const commentEl = document.querySelector('.comment')
-    const wright = document.querySelector('.add-form-button')
-    const commentOld = commentEl.innerHTML;
-    wright.addEventListener('click', function() {
-      
-      console.log("It works!");
-    });
-    console.log(commentEl.innerHTML);
+    const liElement = document.querySelector('.comment')
+    const buttonEl = document.querySelector('.add-form-button')
+    const ulElement = document.querySelector('.comments')
     
+    buttonEl.addEventListener('click', function() {
+      let dateTime = new Date();
+      dateTime = dateTime.toLocaleDateString('ru-RU', { 
+        year: '2-digit', 
+        month: '2-digit', 
+        day: '2-digit' 
+      }) + ' ' + dateTime.toLocaleTimeString('ru-RU', { 
+      hour: '2-digit', 
+      minute: '2-digit'});
+      
+      const name = document.querySelector('.add-form-name').value;
+      const text = document.querySelector('.add-form-text').value;
+      const oldHtml = ulElement.innerHTML;
+      ulElement.innerHTML = oldHtml + `
+      <li class="comment">
+        <div class="comment-header">
+          <div>${name}</div>
+          <div>${dateTime}</div>
+        </div>
+        <div class="comment-body">
+          <div class="comment-text">
+            ${text}
+          </div>
+        </div>
+        <div class="comment-footer">
+          <div class="likes">
+            <span class="likes-counter">0</span>
+            <button class="like-button"></button>
+          </div>
+        </div>
+      </li>`;
+    });
   </script>
 </html>
