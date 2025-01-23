@@ -82,8 +82,9 @@
       const likeButtonElements = document.querySelectorAll('.like-button');
 
       for (const likeButtonElement of likeButtonElements) {
-        likeButtonElement.addEventListener('click', () => {
-          
+        likeButtonElement.addEventListener('click', (event) => {
+          event.stopPropagation();
+
           const indexLike = likeButtonElement.dataset.index;
           
           if (userComments[indexLike].iconLike === false) {
@@ -99,10 +100,23 @@
       }
     };
 
+    const authorQuote = () => {
+
+      const commentElements = document.querySelectorAll('.comment');
+
+      for (const commentElement of commentElements) {
+        commentElement.addEventListener('click', () => {
+          const authorQuote = commentElement.dataset.quote;
+
+          textUser.value = `Цитируем комментарий\n&#10077;\n${userComments[authorQuote].name}\n${userComments[authorQuote].text}&#10078;`;
+        });
+      };
+    }
+
     const renderUserComments = () => {
       const UserCommetnsHtml = userComments.map((userComment, index) => {
         return `
-          <li class="comment">
+          <li data-quote="${index}" class="comment">
             <div class="comment-header">
               <div>${userComment.name}</div>
               <div>${userComment.date}</div>
@@ -124,6 +138,7 @@
       ulElement.innerHTML = UserCommetnsHtml;
 
       likeButton();
+      authorQuote();
     }
     
     renderUserComments();
@@ -154,7 +169,7 @@
       hour: '2-digit', 
       minute: '2-digit'});
       
-      userComments.push({name: nameUser.value, text: textUser.value, date: dateTime, likes: 0, iconLike: false});
+      userComments.push({name: nameUser.value.replaceAll('<', '	&#8249;').replaceAll('>', '&#8250;'), text: textUser.value.replaceAll('<', '	&#8249;').replaceAll('>', '&#8250;'), date: dateTime, likes: 0, iconLike: false});
       renderUserComments();
 
       nameUser.value = '';
