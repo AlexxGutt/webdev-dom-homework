@@ -108,7 +108,7 @@
         commentElement.addEventListener('click', () => {
           const authorQuote = commentElement.dataset.quote;
 
-          textUser.value = `Цитируем комментарий\n&#10077;\n${userComments[authorQuote].name}\n${userComments[authorQuote].text}&#10078;`;
+          textUser.value = `Цитируем:\n❝${userComments[authorQuote].name}\n${userComments[authorQuote].text}❞`;
         });
       };
     }
