@@ -12,4 +12,4 @@ export const userComments = [
       likes: 75,
       iconLike: false,
     }
-  ];
+];

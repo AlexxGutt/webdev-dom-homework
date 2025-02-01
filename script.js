@@ -56,11 +56,11 @@ const liElement = document.querySelector('.comment')
       };
     }
 
-    const renderUserComments = () => {
-      const UserCommetnsHtml = userComments.map((userComment, index) => {
-        return `
-          <li data-quote="${index}" class="comment">
-            <div class="comment-header">
+const renderUserComments = () => {
+  const UserCommetnsHtml = userComments.map((userComment, index) => {
+    return `
+      <li data-quote="${index}" class="comment">
+        <div class="comment-header">
               <div>${userComment.name}</div>
               <div>${userComment.date}</div>
             </div>
@@ -78,15 +78,15 @@ const liElement = document.querySelector('.comment')
       }).join("");
         
       
-      ulElement.innerHTML = UserCommetnsHtml;
+  ulElement.innerHTML = UserCommetnsHtml;
 
-      likeButton();
-      authorQuote();
-    }
+  likeButton();
+  authorQuote();
+}
     
-    renderUserComments();
+renderUserComments();
 
-    buttonEl.addEventListener('click', function() {
+buttonEl.addEventListener('click', function() {
       
       if (nameUser.value === '' || nameUser.value === ' ') {
         nameUser.classList.add("error");
