@@ -1,6 +1,7 @@
 import {userComments} from "./users.js";
 import {renderUserComments} from "./renderComments.js";
-import {textUser} from "./variables.js";
+import {textUser, nameUser, buttonEl} from "./variables.js";
+import {sanitizeHtml} from "./sanitizeHtml.js";
 
 export const likeButton = () => {
     const likeButtonElements = document.querySelectorAll('.like-button');
@@ -37,3 +38,37 @@ export const authorQuote = () => {
     };
 };
 
+export const addComment = () => {
+  buttonEl.addEventListener('click', function() {
+      
+    if (nameUser.value === '' || nameUser.value === ' ') {
+      nameUser.classList.add("error");
+      nameUser.placeholder = "Это поле не может быть пустым!"
+      return;
+    } else if (textUser.value === '' || textUser.value === ' ') {
+      textUser.classList.add("error");
+      textUser.placeholder = "Это поле не может быть пустым!"
+      return;
+    } else {
+      nameUser.classList.remove("error");
+      textUser.classList.remove("error");
+      nameUser.placeholder = "Введите ваше имя"
+      textUser.placeholder = "Введите ваш коментарий"
+    }
+    
+    let dateTime = new Date();
+    dateTime = dateTime.toLocaleDateString('ru-RU', { 
+      year: '2-digit', 
+      month: '2-digit', 
+      day: '2-digit' 
+    }) + ' ' + dateTime.toLocaleTimeString('ru-RU', { 
+    hour: '2-digit', 
+    minute: '2-digit'});
+    
+    userComments.push({name: sanitizeHtml(nameUser.value), text: sanitizeHtml(textUser.value), date: dateTime, likes: 0, iconLike: false});
+    renderUserComments();
+  
+    nameUser.value = '';
+    textUser.value = '';
+  });
+};
