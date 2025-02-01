@@ -1,5 +1,6 @@
 import {userComments} from "./users.js";
-import {renderUserComments} from "./renderComments,js";
+import {renderUserComments} from "./renderComments.js";
+import {textUser} from "./variables.js";
 
 export const likeButton = () => {
     const likeButtonElements = document.querySelectorAll('.like-button');
