@@ -7,7 +7,7 @@ export const renderUserComments = () => {
             return `
         <li data-quote="${index}" class="comment">
           <div class="comment-header">
-            <div>${userComment.name}</div>
+            <div>${userComment.author.name}</div>
             <div>${userComment.date}</div>
           </div>
           <div class="comment-body">
@@ -16,7 +16,7 @@ export const renderUserComments = () => {
           <div class="comment-footer">
             <div class="likes">
               <span class="likes-counter">${userComment.likes}</span>
-              <button data-index="${index}" class="like-button ${userComment.iconLike ? '-active-like' : ''}"></button>
+              <button data-index="${index}" class="like-button ${userComment.isLiked ? '-active-like' : ''}"></button>
             </div>
           </div>
         </li>

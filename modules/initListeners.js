@@ -12,13 +12,13 @@ export const likeButton = () => {
 
             const indexLike = likeButtonElement.dataset.index
 
-            if (userComments[indexLike].iconLike === false) {
+            if (userComments[indexLike].isLiked === false) {
                 userComments[indexLike].likes++
-                userComments[indexLike].iconLike = true
+                userComments[indexLike].isLiked = true
                 renderUserComments()
             } else {
                 userComments[indexLike].likes--
-                userComments[indexLike].iconLike = false
+                userComments[indexLike].isLiked = false
                 renderUserComments()
             }
         })
@@ -32,7 +32,7 @@ export const authorQuote = () => {
         commentElement.addEventListener('click', () => {
             const authorQuote = commentElement.dataset.quote
 
-            textUser.value = `Цитируем:\n❝${userComments[authorQuote].name}\n${userComments[authorQuote].text}❞`
+            textUser.value = `Цитируем:\n❝${userComments[authorQuote].author.name}\n${userComments[authorQuote].text}❞`
         })
     }
 }
@@ -72,7 +72,7 @@ export const addComment = () => {
             text: sanitizeHtml(textUser.value),
             date: dateTime,
             likes: 0,
-            iconLike: false,
+            isLiked: false,
         })
         renderUserComments()
 
