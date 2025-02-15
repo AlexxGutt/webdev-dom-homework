@@ -1,4 +1,4 @@
-import { userComments } from './users.js'
+import { updateUserComments, userComments } from './users.js'
 import { renderUserComments } from './renderComments.js'
 import { textUser, nameUser, buttonEl } from './variables.js'
 import { sanitizeHtml } from './sanitizeHtml.js'
@@ -67,22 +67,34 @@ export const addComment = () => {
                 minute: '2-digit',
             })
 
-        // const newComment = {
-        //     name: sanitizeHtml(nameUser.value),
-        //     text: sanitizeHtml(textUser.value),
-        //     date: dateTime,
-        //     likes: 0,
-        //     isLiked: false,
-        // } Остновился на разборе метода POST
-
-        userComments.push({
+        const newComment = {
             name: sanitizeHtml(nameUser.value),
             text: sanitizeHtml(textUser.value),
             date: dateTime,
             likes: 0,
             isLiked: false,
+        }
+
+        fetch('https://wedev-api.sky.pro/api/v1/alexxgutt/comments', {
+            method: 'POST',
+            body: JSON.stringify(newComment),
         })
-        renderUserComments()
+            .then((response) => {
+                return response.json()
+            })
+            .then((data) => {
+                updateUserComments(data.comments)
+                renderUserComments()
+            })
+
+        // userComments.push({
+        //     name: sanitizeHtml(nameUser.value),
+        //     text: sanitizeHtml(textUser.value),
+        //     date: dateTime,
+        //     likes: 0,
+        //     isLiked: false,
+        // })
+        // renderUserComments()
 
         nameUser.value = ''
         textUser.value = ''
