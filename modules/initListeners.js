@@ -67,6 +67,14 @@ export const addComment = () => {
                 minute: '2-digit',
             })
 
+        // const newComment = {
+        //     name: sanitizeHtml(nameUser.value),
+        //     text: sanitizeHtml(textUser.value),
+        //     date: dateTime,
+        //     likes: 0,
+        //     isLiked: false,
+        // } Остновился на разборе метода POST
+
         userComments.push({
             name: sanitizeHtml(nameUser.value),
             text: sanitizeHtml(textUser.value),
