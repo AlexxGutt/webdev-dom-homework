@@ -3,6 +3,16 @@ import { renderUserComments } from './renderComments.js'
 import { textUser, nameUser, buttonEl } from './variables.js'
 import { sanitizeHtml } from './sanitizeHtml.js'
 
+export const getNewComments = () => {
+    fetch('https://wedev-api.sky.pro/api/v1/alex-gutt/comments')
+        .then((response) => {
+            return response.json()
+        })
+        .then((data) => {
+            updateUserComments(data.comments)
+            renderUserComments()
+        })
+}
 export const likeButton = () => {
     const likeButtonElements = document.querySelectorAll('.like-button')
 
@@ -75,7 +85,7 @@ export const addComment = () => {
             isLiked: false,
         }
 
-        fetch('https://wedev-api.sky.pro/api/v1/alexxgutt/comments', {
+        fetch('https://wedev-api.sky.pro/api/v1/alex-gutt/comments', {
             method: 'POST',
             body: JSON.stringify(newComment),
         })
@@ -83,18 +93,12 @@ export const addComment = () => {
                 return response.json()
             })
             .then((data) => {
-                updateUserComments(data.comments)
-                renderUserComments()
+                if (data.result === 'ok') {
+                    getNewComments()
+                }
             })
 
-        // userComments.push({
-        //     name: sanitizeHtml(nameUser.value),
-        //     text: sanitizeHtml(textUser.value),
-        //     date: dateTime,
-        //     likes: 0,
-        //     isLiked: false,
-        // })
-        // renderUserComments()
+        renderUserComments()
 
         nameUser.value = ''
         textUser.value = ''
