@@ -98,8 +98,6 @@ export const addComment = () => {
                 }
             })
 
-        renderUserComments()
-
         nameUser.value = ''
         textUser.value = ''
     })
