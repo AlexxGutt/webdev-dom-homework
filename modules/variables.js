@@ -1,5 +1,0 @@
-export const liElement = document.querySelector('.comment')
-export const buttonEl = document.querySelector('.add-form-button')
-export const ulElement = document.querySelector('.comments')
-export const nameUser = document.querySelector('.add-form-name')
-export const textUser = document.querySelector('.add-form-text')

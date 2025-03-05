@@ -1,18 +1,8 @@
-import { updateUserComments, userComments } from './users.js'
+import { userComments, updateUserComments } from './users.js'
 import { renderUserComments } from './renderComments.js'
-import { textUser, nameUser, buttonEl } from './variables.js'
 import { sanitizeHtml } from './sanitizeHtml.js'
+import { postComments } from './api.js'
 
-export const getNewComments = () => {
-    fetch('https://wedev-api.sky.pro/api/v1/alex-gutt/comments')
-        .then((response) => {
-            return response.json()
-        })
-        .then((data) => {
-            updateUserComments(data.comments)
-            renderUserComments()
-        })
-}
 export const likeButton = () => {
     const likeButtonElements = document.querySelectorAll('.like-button')
 
@@ -22,13 +12,13 @@ export const likeButton = () => {
 
             const indexLike = likeButtonElement.dataset.index
 
-            if (userComments[indexLike].isLiked === false) {
-                userComments[indexLike].likes++
-                userComments[indexLike].isLiked = true
-                renderUserComments()
-            } else {
+            if (userComments[indexLike].isLiked === true) {
                 userComments[indexLike].likes--
                 userComments[indexLike].isLiked = false
+                renderUserComments()
+            } else {
+                userComments[indexLike].likes++
+                userComments[indexLike].isLiked = true
                 renderUserComments()
             }
         })
@@ -37,18 +27,23 @@ export const likeButton = () => {
 
 export const authorQuote = () => {
     const commentElements = document.querySelectorAll('.comment')
+    const textUser = document.querySelector('.add-form-text')
 
     for (const commentElement of commentElements) {
         commentElement.addEventListener('click', () => {
             const authorQuote = commentElement.dataset.quote
 
-            textUser.value = `Цитируем:\n❝${userComments[authorQuote].author.name}\n${userComments[authorQuote].text}❞`
+            textUser.value = `Цитируем:\n❝${userComments[authorQuote].name}\n${userComments[authorQuote].text}❞`
         })
     }
 }
 
 export const addComment = () => {
-    buttonEl.addEventListener('click', function () {
+    const buttonEl = document.querySelector('.add-form-button')
+    const nameUser = document.querySelector('.add-form-name')
+    const textUser = document.querySelector('.add-form-text')
+
+    buttonEl.addEventListener('click', () => {
         if (nameUser.value === '' || nameUser.value === ' ') {
             nameUser.classList.add('error')
             nameUser.placeholder = 'Это поле не может быть пустым!'
@@ -63,43 +58,21 @@ export const addComment = () => {
             nameUser.placeholder = 'Введите ваше имя'
             textUser.placeholder = 'Введите ваш коментарий'
         }
+        document.querySelector('.form-loading').style.display = 'block'
+        document.querySelector('.add-form').style.display = 'none'
 
-        let dateTime = new Date()
-        dateTime =
-            dateTime.toLocaleDateString('ru-RU', {
-                year: '2-digit',
-                month: '2-digit',
-                day: '2-digit',
-            }) +
-            ' ' +
-            dateTime.toLocaleTimeString('ru-RU', {
-                hour: '2-digit',
-                minute: '2-digit',
-            })
+        postComments(
+            sanitizeHtml(textUser.value),
+            sanitizeHtml(nameUser.value),
+        ).then((data) => {
+            document.querySelector('.form-loading').style.display = 'none'
+            document.querySelector('.add-form').style.display = 'flex'
 
-        const newComment = {
-            name: sanitizeHtml(nameUser.value),
-            text: sanitizeHtml(textUser.value),
-            date: dateTime,
-            likes: 0,
-            isLiked: false,
-        }
-
-        fetch('https://wedev-api.sky.pro/api/v1/alex-gutt/comments', {
-            method: 'POST',
-            body: JSON.stringify(newComment),
+            updateUserComments(data)
+            renderUserComments()
+            nameUser.value = ''
+            textUser.value = ''
         })
-            .then((response) => {
-                return response.json()
-            })
-            .then((data) => {
-                if (data.result === 'ok') {
-                    getNewComments()
-                }
-            })
-
-        nameUser.value = ''
-        textUser.value = ''
     })
 }
 

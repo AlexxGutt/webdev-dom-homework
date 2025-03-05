@@ -1,14 +1,16 @@
 import { userComments } from './users.js'
 import { likeButton, authorQuote, formatDate } from './initListeners.js'
-import { ulElement } from './variables.js'
+
 export const renderUserComments = () => {
+    const ulElement = document.querySelector('.comments')
+
     const UserCommetnsHtml = userComments
         .map((userComment, index) => {
             const formattedDate = formatDate(userComment.date)
             return `
       <li data-quote="${index}" class="comment">
         <div class="comment-header">
-          <div>${userComment.author.name}</div>
+          <div>${userComment.name}</div>
           <div>${formattedDate}</div>
         </div>
         <div class="comment-body">
