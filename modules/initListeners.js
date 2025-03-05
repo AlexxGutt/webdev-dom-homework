@@ -3,6 +3,14 @@ import { renderUserComments } from './renderComments.js'
 import { sanitizeHtml } from './sanitizeHtml.js'
 import { postComments } from './api.js'
 
+function delay(interval = 300) {
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            resolve()
+        }, interval)
+    })
+}
+
 export const likeButton = () => {
     const likeButtonElements = document.querySelectorAll('.like-button')
 
@@ -11,16 +19,19 @@ export const likeButton = () => {
             event.stopPropagation()
 
             const indexLike = likeButtonElement.dataset.index
+            likeButtonElement.classList.add('-loading-like')
 
             if (userComments[indexLike].isLiked === true) {
                 userComments[indexLike].likes--
                 userComments[indexLike].isLiked = false
-                renderUserComments()
             } else {
                 userComments[indexLike].likes++
                 userComments[indexLike].isLiked = true
-                renderUserComments()
             }
+
+            delay(2000).then(() => {
+                renderUserComments()
+            })
         })
     }
 }
