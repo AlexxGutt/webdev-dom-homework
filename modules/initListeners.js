@@ -55,35 +55,42 @@ export const addComment = () => {
     const textUser = document.querySelector('.add-form-text')
 
     buttonEl.addEventListener('click', () => {
-        if (nameUser.value === '' || nameUser.value === ' ') {
-            nameUser.classList.add('error')
-            nameUser.placeholder = 'Это поле не может быть пустым!'
-            return
-        } else if (textUser.value === '' || textUser.value === ' ') {
-            textUser.classList.add('error')
-            textUser.placeholder = 'Это поле не может быть пустым!'
-            return
-        } else {
-            nameUser.classList.remove('error')
-            textUser.classList.remove('error')
-            nameUser.placeholder = 'Введите ваше имя'
-            textUser.placeholder = 'Введите ваш коментарий'
-        }
         document.querySelector('.form-loading').style.display = 'block'
         document.querySelector('.add-form').style.display = 'none'
 
-        postComments(
-            sanitizeHtml(textUser.value),
-            sanitizeHtml(nameUser.value),
-        ).then((data) => {
-            document.querySelector('.form-loading').style.display = 'none'
-            document.querySelector('.add-form').style.display = 'flex'
+        postComments(sanitizeHtml(textUser.value), sanitizeHtml(nameUser.value))
+            .then((data) => {
+                document.querySelector('.form-loading').style.display = 'none'
+                document.querySelector('.add-form').style.display = 'flex'
 
-            updateUserComments(data)
-            renderUserComments()
-            nameUser.value = ''
-            textUser.value = ''
-        })
+                updateUserComments(data)
+                renderUserComments()
+                nameUser.value = ''
+                textUser.value = ''
+            })
+            .catch((error) => {
+                document.querySelector('.form-loading').style.display = 'none'
+                document.querySelector('.add-form').style.display = 'flex'
+
+                if (error.message === 'Failed to fetch') {
+                    alert('Нет интернета, попробуйте снова...')
+                }
+
+                if (error.message === 'Ошибка сервера...') {
+                    alert(`${error.message}`)
+                }
+
+                if (error.message === 'Неверный запрос...') {
+                    alert('Имя и комментарий должны быть длинее 3-х символов!')
+                    nameUser.classList.add('error')
+                    textUser.classList.add('error')
+                }
+
+                setTimeout(() => {
+                    nameUser.classList.remove('error')
+                    textUser.classList.remove('error')
+                }, 3000)
+            })
     })
 }
 
