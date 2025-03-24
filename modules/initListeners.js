@@ -55,6 +55,7 @@ export const addComment = () => {
     const textUser = document.querySelector('.add-form-text')
 
     buttonEl.addEventListener('click', () => {
+        console.log('кнопка работает')
         document.querySelector('.form-loading').style.display = 'block'
         document.querySelector('.add-form').style.display = 'none'
 
