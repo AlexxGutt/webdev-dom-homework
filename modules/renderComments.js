@@ -6,7 +6,7 @@ import {
     addComment,
 } from './initListeners.js'
 import { renderLogin } from './renderLogin.js'
-import { token } from './api.js'
+import { token, name } from './api.js'
 
 export const renderUserComments = () => {
     const container = document.querySelector('.container')
@@ -39,6 +39,8 @@ export const renderUserComments = () => {
           type="text"
           class="add-form-name"
           placeholder="Введите ваше имя"
+          readonly
+          value="${name}"
       />
       <textarea
           type="textarea"

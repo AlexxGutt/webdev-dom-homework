@@ -1,13 +1,18 @@
-import { login, setToken, setName } from './api.js'
+import { setToken, setName, registration } from './api.js'
 import { fetchAndRenderComments } from '../index.js'
-import { renderRegistration } from './renderRegistration.js'
-export const renderLogin = () => {
+import { renderLogin } from './renderLogin.js'
+export const renderRegistration = () => {
     const container = document.querySelector('.container')
 
     const loginHtml = `
     <div class="comment">
-    <p class="title">Форма входа</p>
+    <p class="title">Форма регистрации</p>
                 <div class="header">
+                    <input
+                        type="text"
+                        class="name add-form-name-l"
+                        placeholder="Имя"
+                    />
                     <input
                         type="text"
                         class="login add-form-name-l"
@@ -29,20 +34,22 @@ export const renderLogin = () => {
 
     container.innerHTML = loginHtml
 
-    document.querySelector('.reg').addEventListener('click', () => {
-        renderRegistration()
+    document.querySelector('.enter').addEventListener('click', () => {
+        renderLogin()
     })
 
+    const nameEl = document.querySelector('.name')
     const loginEl = document.querySelector('.login')
     const passwordEl = document.querySelector('.password')
-    const submitButton = document.querySelector('.enter')
+    const submitButton = document.querySelector('.reg')
 
     submitButton.addEventListener('click', () => {
-        login(loginEl.value, passwordEl.value)
+        registration(nameEl.value, loginEl.value, passwordEl.value)
             .then((response) => {
                 return response.json()
             })
             .then((data) => {
+                console.log(data)
                 setToken(data.user.token)
                 setName(data.user.name)
                 fetchAndRenderComments()

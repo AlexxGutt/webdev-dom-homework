@@ -66,7 +66,7 @@ export const login = (login, password) => {
 }
 
 export const registration = (name, login, password) => {
-    return fetch(authHost + '/login', {
+    return fetch(authHost, {
         method: 'POST',
         body: JSON.stringify({ name: name, login: login, password: password }),
     })

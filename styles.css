@@ -188,6 +188,9 @@ body {
     align-items: flex-start;
 }
 
+.name {
+    margin-bottom: 10px;
+}
 .login {
     margin-bottom: 10px;
 }
