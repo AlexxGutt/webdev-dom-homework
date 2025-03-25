@@ -47,5 +47,17 @@ export const renderLogin = () => {
                 setName(data.user.name)
                 fetchAndRenderComments()
             })
+            .catch((error) => {
+                if (error.message === 'Неверный логин или пароль...') {
+                    alert('Неверный логин или пароль...')
+                    loginEl.classList.add('error')
+                    passwordEl.classList.add('error')
+                }
+
+                setTimeout(() => {
+                    loginEl.classList.remove('error')
+                    passwordEl.classList.remove('error')
+                }, 3000)
+            })
     })
 }

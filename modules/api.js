@@ -62,6 +62,16 @@ export const login = (login, password) => {
     return fetch(authHost + '/login', {
         method: 'POST',
         body: JSON.stringify({ login: login, password: password }),
+    }).then((response) => {
+        if (response.status === 400) {
+            throw new Error('Неверный логин или пароль...')
+        }
+        if (response.status === 201) {
+            return fetch(authHost + '/login', {
+                method: 'POST',
+                body: JSON.stringify({ login: login, password: password }),
+            })
+        }
     })
 }
 
@@ -69,5 +79,15 @@ export const registration = (name, login, password) => {
     return fetch(authHost, {
         method: 'POST',
         body: JSON.stringify({ name: name, login: login, password: password }),
+    }).then((response) => {
+        if (response.status === 400) {
+            throw new Error('Пользователь с таким логином уже существует')
+        }
+        if (response.status === 201) {
+            return fetch(authHost + '/login', {
+                method: 'POST',
+                body: JSON.stringify({ login: login, password: password }),
+            })
+        }
     })
 }

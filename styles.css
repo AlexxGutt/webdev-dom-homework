@@ -142,14 +142,6 @@ body {
     opacity: 0.9;
 }
 
-.error {
-    border-color: red;
-    background-color: #ff000080;
-}
-.error::placeholder {
-    color: red;
-}
-
 .form-loading {
     display: none;
     margin-top: 40px;
@@ -216,4 +208,12 @@ p {
     transition:
         border-color 2s ease,
         background-color 1.5s ease;
+}
+
+.error {
+    border-color: red;
+    background-color: #ff000080;
+}
+.error::placeholder {
+    color: red;
 }

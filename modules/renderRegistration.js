@@ -54,5 +54,22 @@ export const renderRegistration = () => {
                 setName(data.user.name)
                 fetchAndRenderComments()
             })
+            .catch((error) => {
+                if (
+                    error.message ===
+                    'Пользователь с таким логином уже существует'
+                ) {
+                    alert('Пользователь с таким логином уже существует')
+                    nameEl.classList.add('error')
+                    loginEl.classList.add('error')
+                    passwordEl.classList.add('error')
+                }
+
+                setTimeout(() => {
+                    nameEl.classList.remove('error')
+                    loginEl.classList.remove('error')
+                    passwordEl.classList.remove('error')
+                }, 3000)
+            })
     })
 }
