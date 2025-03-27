@@ -1,9 +1,15 @@
 import { userComments } from './users.js'
-import { likeButton, authorQuote, formatDate } from './initListeners.js'
+import {
+    likeButton,
+    authorQuote,
+    formatDate,
+    addComment,
+} from './initListeners.js'
+import { renderLogin } from './renderLogin.js'
+import { token, name } from './api.js'
 
 export const renderUserComments = () => {
-    const ulElement = document.querySelector('.comments')
-
+    const container = document.querySelector('.container')
     const UserCommetnsHtml = userComments
         .map((userComment, index) => {
             const formattedDate = formatDate(userComment.date)
@@ -27,8 +33,41 @@ export const renderUserComments = () => {
         })
         .join('')
 
-    ulElement.innerHTML = UserCommetnsHtml
+    const addCommentsHtml = `
+    <div class="add-form">
+      <input
+          type="text"
+          class="add-form-name"
+          placeholder="Введите ваше имя"
+          readonly
+          value="${name}"
+      />
+      <textarea
+          type="textarea"
+          class="add-form-text"
+          placeholder="Введите ваш коментарий"
+          rows="4"
+      ></textarea>
+      <div class="add-form-row">
+          <button class="add-form-button">Написать</button>
+      </div>
+      <div class="form-loading">Комментарий добавляется...</div>
+    </div>`
 
-    likeButton()
-    authorQuote()
+    const linkToLoginText = `<p>чтобы отправить комментарий, <span class="link-login">войдите</span></p>`
+
+    const baseHtml = `<ul class="comments">${UserCommetnsHtml}</ul>
+    ${token ? addCommentsHtml : linkToLoginText}`
+
+    container.innerHTML = baseHtml
+
+    if (token) {
+        likeButton()
+        authorQuote()
+        addComment()
+    } else {
+        document.querySelector('.link-login').addEventListener('click', () => {
+            renderLogin()
+        })
+    }
 }
